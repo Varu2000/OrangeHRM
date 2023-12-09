@@ -18,6 +18,7 @@ public class Test_001 extends BasePage {
 				PropertiesReader.getData("lastName"), PropertiesReader.getData("jobTitle"),
 				PropertiesReader.getData("empStatus"), PropertiesReader.getData("subUnit"),
 				PropertiesReader.getData("supName_rec") };
+		
 		List<String> rec = Arrays.asList(names);
 
 		LoginPage log = setUp();

@@ -18,7 +18,6 @@ import utils.PropertiesReader;
 public class BasePage {
 
 	public WebDriver driver;
-//	String url = "https://opensource-demo.orangehrmlive.com/web/index.php/auth/login";
 	
 	public LoginPage setUp() {
 		launchBrowser(PropertiesReader.getData("browserName"));

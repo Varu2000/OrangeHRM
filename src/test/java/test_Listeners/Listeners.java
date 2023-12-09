@@ -18,23 +18,23 @@ public class Listeners extends BasePage implements ITestListener {
 
 	ExtentTest test;
 	ExtentReports extent = Extent_report.getReport();
-	
+	ThreadLocal<ExtentTest> loc = new ThreadLocal<ExtentTest>();
 	@Override
 	public void onTestStart(ITestResult result) {
-		 test = extent.createTest(result.getMethod().getMethodName());
-		
+		test = extent.createTest(result.getMethod().getMethodName());
+		loc.set(test);
 	}
 
 	@Override
 	public void onTestSuccess(ITestResult result) {
-		test.log(Status.PASS, "Test Passed");
+		loc.get().log(Status.PASS, "Test Passed");
 	}
 
 	@Override
 	public void onTestFailure(ITestResult result) {
-		
-		test.fail(result.getThrowable());
-		
+
+		loc.get().fail(result.getThrowable());
+
 		try {
 			driver = (WebDriver) result.getTestClass().getRealClass().getField("driver").get(result.getInstance());
 		} catch (Exception e) {
@@ -47,22 +47,22 @@ public class Listeners extends BasePage implements ITestListener {
 			e.printStackTrace();
 		}
 
-		test.addScreenCaptureFromPath(filePath, result.getMethod().getMethodName());
+		loc.get().addScreenCaptureFromPath(filePath, result.getMethod().getMethodName());
 	}
 
 	@Override
 	public void onTestSkipped(ITestResult result) {
-		
+
 	}
 
 	@Override
 	public void onTestFailedButWithinSuccessPercentage(ITestResult result) {
-		
+
 	}
 
 	@Override
 	public void onStart(ITestContext context) {
-		
+
 	}
 
 	@Override
@@ -70,5 +70,4 @@ public class Listeners extends BasePage implements ITestListener {
 		extent.flush();
 	}
 
-	
 }
